@@ -128,3 +128,6 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 RANDOM_ID_MODEL_LENGTH = 12
+FIXTURE_DIRS = [
+    'khanto/fixtures',
+]

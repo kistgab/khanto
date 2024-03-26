@@ -1,0 +1,67 @@
+[
+  {
+    "model": "property.property",
+    "pk": 1,
+    "fields": {
+      "max_guests": 4,
+      "bathroom_count": 2,
+      "accept_pets": true,
+      "cleaning_fee": "50.00",
+      "activation_date": "2024-01-01",
+      "creation_date": "2024-03-20T12:00:00Z",
+      "last_updated": "2024-03-26T12:00:00Z"
+    }
+  },
+  {
+    "model": "property.property",
+    "pk": 2,
+    "fields": {
+      "max_guests": 6,
+      "bathroom_count": 3,
+      "accept_pets": false,
+      "cleaning_fee": "75.00",
+      "activation_date": "2024-02-15",
+      "creation_date": "2024-03-20T13:00:00Z",
+      "last_updated": "2024-03-26T13:00:00Z"
+    }
+  },
+  {
+    "model": "property.property",
+    "pk": 3,
+    "fields": {
+      "max_guests": 12,
+      "bathroom_count": 4,
+      "accept_pets": true,
+      "cleaning_fee": "125.00",
+      "activation_date": "2024-02-15",
+      "creation_date": "2024-03-22T13:30:00Z",
+      "last_updated": "2024-03-26T13:06:00Z"
+    }
+  },
+  {
+    "model": "property.property",
+    "pk": 4,
+    "fields": {
+      "max_guests": 2,
+      "bathroom_count": 1,
+      "accept_pets": false,
+      "cleaning_fee": "25.00",
+      "activation_date": "2024-03-15",
+      "creation_date": "2023-01-22T13:30:00Z",
+      "last_updated": "2024-01-26T13:05:00Z"
+    }
+  },
+  {
+    "model": "property.property",
+    "pk": 5,
+    "fields": {
+      "max_guests": 34,
+      "bathroom_count": 15,
+      "accept_pets": true,
+      "cleaning_fee": "500.00",
+      "activation_date": "2022-03-01",
+      "creation_date": "2021-01-22T13:30:00Z",
+      "last_updated": "2024-03-26T13:07:00Z"
+    }
+  }
+]
