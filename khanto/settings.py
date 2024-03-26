@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # apps
     'property',
+    'advertisement',
+    'booking',
     # libs
     'rest_framework',
 ]
