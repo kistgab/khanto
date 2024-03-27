@@ -115,3 +115,31 @@ All of the following fields are optional
   - the id of an existing property
 
 ## Booking API
+
+### List all
+
+`GET api_uri/bookings/` returns a list of all bookins
+
+### Detail one
+
+`GET api_uri/bookings/:id/` returns details of the specified id's booking
+
+### Create
+
+`POST api_uri/bookings/` creates a new booking
+
+#### Request body
+
+All of the following fields are required
+
+- check_in_date: date,
+- check_out_date: date,
+- total_value: decimal,
+- comments: string (optional),
+- total_guests: integer,
+- advertisement: integer
+  - id of the advertisement that influenced the user to book
+
+### Delete
+
+`DELETE api_uri/bookings/:id` deletes a booking
