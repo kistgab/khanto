@@ -14,4 +14,9 @@ class BookingSerializer(serializers.ModelSerializer):
       raise serializers.ValidationError({
           "check_out_date": "Check-out date cannot be before than Check-in date.",
       })
+    max_allowed_guests = data["advertisement"].property.max_guests
+    if data["total_guests"] > max_allowed_guests:
+      raise serializers.ValidationError({
+          "total_guests": "Total guests cannot be greater than the maximum number of guests allowed (" + str(max_allowed_guests) +").",
+      })
     return super(BookingSerializer, self).validate(data)
