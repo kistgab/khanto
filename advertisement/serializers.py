@@ -4,7 +4,6 @@ from property.models import Property
 from property.serializers import PropertySerializer
 
 class AdvertisementSerializer(serializers.ModelSerializer):
-  property = PropertySerializer(read_only=True)
   class Meta:
     model = Advertisement
     fields = '__all__'
