@@ -1,0 +1,184 @@
+[
+  {
+    "model": "booking.booking",
+    "pk": 123456789012,
+    "fields": {
+      "advertisement": 1,
+      "check_in_date": "2022-02-28",
+      "check_out_date": "2022-03-04",
+      "total_value": 150.0,
+      "comments": "Booking 1",
+      "total_guests": 2,
+      "creation_date": "2022-02-28T00:00:00Z",
+      "last_updated": "2022-02-28T00:00:00Z"
+    }
+  },
+  {
+    "model": "booking.booking",
+    "pk": 123456789013,
+    "fields": {
+      "advertisement": 2,
+      "check_in_date": "2022-03-01",
+      "check_out_date": "2022-03-05",
+      "total_value": 180.0,
+      "comments": "Booking 2",
+      "total_guests": 3,
+      "creation_date": "2022-03-01T00:00:00Z",
+      "last_updated": "2022-03-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "booking.booking",
+    "pk": 123456789014,
+    "fields": {
+      "advertisement": 3,
+      "check_in_date": "2022-03-01",
+      "check_out_date": "2022-03-05",
+      "total_value": 200.0,
+      "comments": "Booking 3",
+      "total_guests": 4,
+      "creation_date": "2022-03-01T00:00:00Z",
+      "last_updated": "2022-03-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "booking.booking",
+    "pk": 123456789015,
+    "fields": {
+      "advertisement": 2,
+      "check_in_date": "2022-03-02",
+      "check_out_date": "2022-03-06",
+      "total_value": 250.0,
+      "comments": "Booking 4",
+      "total_guests": 2,
+      "creation_date": "2022-03-02T00:00:00Z",
+      "last_updated": "2022-03-02T00:00:00Z"
+    }
+  },
+  {
+    "model": "booking.booking",
+    "pk": 123456789016,
+    "fields": {
+      "advertisement": 1,
+      "check_in_date": "2022-03-03",
+      "check_out_date": "2022-03-07",
+      "total_value": 300.0,
+      "comments": "Booking 5",
+      "total_guests": 3,
+      "creation_date": "2022-03-03T00:00:00Z",
+      "last_updated": "2022-03-03T00:00:00Z"
+    }
+  },
+  {
+    "model": "booking.booking",
+    "pk": 123456789017,
+    "fields": {
+      "advertisement": 4,
+      "check_in_date": "2022-03-04",
+      "check_out_date": "2022-03-08",
+      "total_value": 180.0,
+      "comments": "Booking 6",
+      "total_guests": 1,
+      "creation_date": "2022-03-04T00:00:00Z",
+      "last_updated": "2022-03-04T00:00:00Z"
+    }
+  },
+  {
+    "model": "booking.booking",
+    "pk": 123456789018,
+    "fields": {
+      "advertisement": 5,
+      "check_in_date": "2022-03-05",
+      "check_out_date": "2022-03-09",
+      "total_value": 400.0,
+      "comments": "Booking 7",
+      "total_guests": 2,
+      "creation_date": "2022-03-05T00:00:00Z",
+      "last_updated": "2022-03-05T00:00:00Z"
+    }
+  },
+  {
+    "model": "booking.booking",
+    "pk": 123456789019,
+    "fields": {
+      "advertisement": 3,
+      "check_in_date": "2022-03-06",
+      "check_out_date": "2022-03-10",
+      "total_value": 350.0,
+      "comments": "Booking 8",
+      "total_guests": 4,
+      "creation_date": "2022-03-06T00:00:00Z",
+      "last_updated": "2022-03-06T00:00:00Z"
+    }
+  },
+  {
+    "model": "booking.booking",
+    "pk": 123456789020,
+    "fields": {
+      "advertisement": 2,
+      "check_in_date": "2022-03-07",
+      "check_out_date": "2022-03-11",
+      "total_value": 280.0,
+      "comments": "Booking 9",
+      "total_guests": 3,
+      "creation_date": "2022-03-07T00:00:00Z",
+      "last_updated": "2022-03-07T00:00:00Z"
+    }
+  },
+  {
+    "model": "booking.booking",
+    "pk": 123456789021,
+    "fields": {
+      "advertisement": 1,
+      "check_in_date": "2022-03-08",
+      "check_out_date": "2022-03-12",
+      "total_value": 320.0,
+      "comments": "Booking 10",
+      "total_guests": 2,
+      "creation_date": "2022-03-08T00:00:00Z",
+      "last_updated": "2022-03-08T00:00:00Z"
+    }
+  },
+  {
+    "model": "booking.booking",
+    "pk": 123456789022,
+    "fields": {
+      "advertisement": 4,
+      "check_in_date": "2022-03-09",
+      "check_out_date": "2022-03-13",
+      "total_value": 220.0,
+      "comments": "Booking 11",
+      "total_guests": 1,
+      "creation_date": "2022-03-09T00:00:00Z",
+      "last_updated": "2022-03-09T00:00:00Z"
+    }
+  },
+  {
+    "model": "booking.booking",
+    "pk": 123456789023,
+    "fields": {
+      "advertisement": 5,
+      "check_in_date": "2022-03-10",
+      "check_out_date": "2022-03-14",
+      "total_value": 380.0,
+      "comments": "Booking 12",
+      "total_guests": 3,
+      "creation_date": "2022-03-10T00:00:00Z",
+      "last_updated": "2022-03-10T00:00:00Z"
+    }
+  },
+  {
+    "model": "booking.booking",
+    "pk": 123456789024,
+    "fields": {
+      "advertisement": 3,
+      "check_in_date": "2022-03-11",
+      "check_out_date": "2022-03-15",
+      "total_value": 300.0,
+      "comments": "Booking 13",
+      "total_guests": 4,
+      "creation_date": "2022-03-11T00:00:00Z",
+      "last_updated": "2022-03-11T00:00:00Z"
+    }
+  }
+]
