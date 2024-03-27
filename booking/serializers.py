@@ -27,4 +27,15 @@ class BookingSerializer(serializers.ModelSerializer):
                     + ").",
                 }
             )
+        existing_bookings_in_period = Booking.objects.filter(
+            advertisement__property=data["advertisement"].property,
+            check_out_date__gte=data["check_in_date"],
+            check_in_date__lte=data["check_out_date"],
+        )
+        if existing_bookings_in_period.exists():
+            raise serializers.ValidationError(
+            {
+                "check_in_date": "There is already a booking in the selected period.",
+            }
+            )
         return super(BookingSerializer, self).validate(data)
