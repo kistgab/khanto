@@ -1,15 +1,11 @@
 from decimal import Decimal
-import json
-from django.urls import reverse
 from rest_framework.test import APITestCase
 from rest_framework import status
-from property.models import Property
 from datetime import date
-
 from property.serializers import PropertySerializer
+from property.models import Property
 
 
-# Create your tests here.
 class PropertyViewTestCase(APITestCase):
     def setUp(self):
         Property.objects.create(
@@ -68,9 +64,9 @@ class PropertyViewTestCase(APITestCase):
     def test_should_delete_a_property_when_the_specified_id_matches(self):
         url = "/properties/1/"
         response = self.client.delete(url)
-        propertyInDb = Property.objects.filter(id=1).first()
+        property_in_db = Property.objects.filter(id=1).first()
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-        self.assertIsNone(propertyInDb)
+        self.assertIsNone(property_in_db)
 
     def test_should_return_error_when_the_specified_id_dont_matches(self):
         url = "/properties/2/"
@@ -98,6 +94,28 @@ class PropertyViewTestCase(APITestCase):
         self.assertEqual(response.data["accept_pets"], data["accept_pets"])
         self.assertEqual(response.data["activation_date"], str(data["activation_date"]))
         self.assertEqual(Decimal(response.data["cleaning_fee"]), data["cleaning_fee"])
+
+    def test_should_update_property_field_when_is_specified(self):
+        property_id = 1
+        url = f"/properties/{property_id}/"
+        data = {
+            "max_guests": 5,
+        }
+        response = self.client.patch(url, data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["id"], property_id)
+        self.assertEqual(response.data["max_guests"], data["max_guests"])
+
+    def test_should_return_error_when_updating_non_existent_field(self):
+        property_id = 1
+        url = f"/properties/{property_id}/"
+        data = {
+            "non_existent_field": 10,
+        }
+        property_before = Property.objects.filter(id=property_id).first()
+        self.client.patch(url, data)
+        property_after = Property.objects.filter(id=property_id).first()
+        self.assertEqual(property_before, property_after)
 
     def test_should_return_error_when_updating_non_existent_property(self):
         property_id = 2
