@@ -2,7 +2,9 @@ from datetime import date
 from rest_framework.test import APITestCase
 from advertisement.models import Advertisement
 from booking.models import Booking
+from booking.serializers import BookingSerializer
 from property.models import Property
+from rest_framework import status
 
 
 class BookingViewTestCase(APITestCase):
@@ -38,7 +40,7 @@ class BookingViewTestCase(APITestCase):
         }
         response = self.client.post(url, data)
         createdBooking = Booking.objects.get(id=response.data["id"])
-        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertIsNotNone(createdBooking)
         self.assertEqual(createdBooking.advertisement_id, data["advertisement"])
         self.assertEqual(createdBooking.check_in_date, data["check_in_date"])
@@ -60,7 +62,7 @@ class BookingViewTestCase(APITestCase):
             "comments": "comments",
         }
         response = self.client.post(url, data)
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_should_not_create_booking_when_check_out_date_is_after_check_in_date(
         self,
@@ -75,7 +77,7 @@ class BookingViewTestCase(APITestCase):
             "comments": "comments",
         }
         response = self.client.post(url, data)
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(
             response.data,
             {"check_out_date": ["Check-out date cannot be before than Check-in date"]},
@@ -94,8 +96,7 @@ class BookingViewTestCase(APITestCase):
             "comments": "comments",
         }
         response = self.client.post(url, data)
-        self.assertEqual(response.status_code, 400)
-        print(response.data)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(
             response.data,
             {
@@ -103,4 +104,58 @@ class BookingViewTestCase(APITestCase):
                     "Total guests cannot be greater than the maximum number of guests allowed (2)"
                 ]
             },
+        )
+
+    def test_should_list_all_bookings(self):
+        url = "/bookings/"
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data["results"]), 1)
+        self.assertEqual(
+            response.data["results"][0],
+            BookingSerializer(Booking.objects.all().first()).data,
+        )
+
+    def test_should_list_no_bookings_when_database_is_empty(self):
+        self.addCleanup(lambda: Advertisement.objects.all().delete())
+        self.doCleanups()
+        url = "/bookings/"
+        response = self.client.get(url)
+        self.assertEqual(response.data["count"], 0)
+        self.assertIsNone(response.data["next"])
+        self.assertIsNone(response.data["previous"])
+        self.assertEqual(response.data["results"], [])
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_should_retrieve_booking_by_id(self):
+        booking = Booking.objects.first()
+        url = f"/bookings/{booking.id}/"
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, BookingSerializer(booking).data)
+
+    def test_should_not_retrieve_booking_by_when_specified_id_is_unexisting(
+        self,
+    ):
+        url = "/bookings/1234/"
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertEqual(
+            response.data, {"detail": "No Booking matches the given query."}
+        )
+
+    def test_should_delete_booking_by_id(self):
+        booking_id = Booking.objects.first().id
+        url = f"/bookings/{booking_id}/"
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertFalse(Booking.objects.filter(id=booking_id).exists())
+
+    def test_should_not_delete_booking_when_specified_id_doesnt_exists(self):
+        booking_id = 1234
+        url = f"/bookings/{booking_id}/"
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertEqual(
+            response.data, {"detail": "No Booking matches the given query."}
         )
