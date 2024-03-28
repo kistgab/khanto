@@ -1,3 +1,4 @@
+from decimal import Decimal
 import json
 from django.urls import reverse
 from rest_framework.test import APITestCase
@@ -74,6 +75,59 @@ class PropertyViewTestCase(APITestCase):
     def test_should_return_error_when_the_specified_id_dont_matches(self):
         url = "/properties/2/"
         response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertEqual(
+            response.data, {"detail": "No Property matches the given query."}
+        )
+
+    def test_should_update_property_when_everything_is_specified(self):
+        property_id = 1
+        url = f"/properties/{property_id}/"
+        data = {
+            "max_guests": 4,
+            "bathroom_count": 3,
+            "accept_pets": False,
+            "cleaning_fee": 300,
+            "activation_date": date.today(),
+        }
+        response = self.client.put(url, data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["id"], property_id)
+        self.assertEqual(response.data["max_guests"], data["max_guests"])
+        self.assertEqual(response.data["bathroom_count"], data["bathroom_count"])
+        self.assertEqual(response.data["accept_pets"], data["accept_pets"])
+        self.assertEqual(response.data["activation_date"], str(data["activation_date"]))
+        self.assertEqual(Decimal(response.data["cleaning_fee"]), data["cleaning_fee"])
+
+    def test_should_return_error_when_updating_non_existent_property(self):
+        property_id = 2
+        url = f"/properties/{property_id}/"
+        data = {
+            "max_guests": 4,
+            "bathroom_count": 3,
+            "accept_pets": False,
+            "cleaning_fee": 300,
+            "activation_date": date.today(),
+        }
+        response = self.client.put(url, data)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertEqual(
+            response.data, {"detail": "No Property matches the given query."}
+        )
+
+    def test_should_retrieve_property_details_when_the_specified_id_matches(self):
+        property_id = 1
+        url = f"/properties/{property_id}/"
+        response = self.client.get(url)
+        property_in_db = Property.objects.filter(id=property_id).first()
+        serializer = PropertySerializer(property_in_db)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, serializer.data)
+
+    def test_should_return_error_when_retrieving_details_of_nonexistent_property(self):
+        property_id = 2
+        url = f"/properties/{property_id}/"
+        response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         self.assertEqual(
             response.data, {"detail": "No Property matches the given query."}
