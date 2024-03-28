@@ -28,7 +28,7 @@ class BookingViewTestCase(APITestCase):
             comments="comments",
         )
 
-    def test_should_create_booking_when_everything_is_correct(self):
+    def test_should_create_booking_correctly(self):
         url = "/bookings/"
         data = {
             "advertisement": 1,
@@ -49,7 +49,7 @@ class BookingViewTestCase(APITestCase):
         self.assertEqual(createdBooking.total_value, data["total_value"])
         self.assertEqual(createdBooking.comments, data["comments"])
 
-    def test_should_not_create_booking_when_there_is_a_booking_in_period(
+    def test_should_not_create_booking_when_there_is_already_a_booking_in_specified_period(
         self,
     ):
         url = "/bookings/"
@@ -64,7 +64,7 @@ class BookingViewTestCase(APITestCase):
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
-    def test_should_not_create_booking_when_check_out_date_is_after_check_in_date(
+    def test_should_not_create_booking_when_checkout_date_is_after_checkin_date(
         self,
     ):
         url = "/bookings/"
@@ -134,7 +134,7 @@ class BookingViewTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, BookingSerializer(booking).data)
 
-    def test_should_not_retrieve_booking_by_when_specified_id_is_unexisting(
+    def test_should_not_retrieve_booking_when_specified_id_doesnt_exist(
         self,
     ):
         url = "/bookings/1234/"
@@ -151,7 +151,7 @@ class BookingViewTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertFalse(Booking.objects.filter(id=booking_id).exists())
 
-    def test_should_not_delete_booking_when_specified_id_doesnt_exists(self):
+    def test_should_not_delete_booking_when_specified_id_doesnt_exist(self):
         booking_id = 1234
         url = f"/bookings/{booking_id}/"
         response = self.client.delete(url)
