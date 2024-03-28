@@ -15,7 +15,7 @@ class BookingSerializer(serializers.ModelSerializer):
         if data["check_in_date"] > data["check_out_date"]:
             raise serializers.ValidationError(
                 {
-                    "check_out_date": "Check-out date cannot be before than Check-in date.",
+                    "check_out_date": "Check-out date cannot be before than Check-in date",
                 }
             )
         max_allowed_guests = data["advertisement"].property.max_guests
@@ -24,7 +24,7 @@ class BookingSerializer(serializers.ModelSerializer):
                 {
                     "total_guests": "Total guests cannot be greater than the maximum number of guests allowed ("
                     + str(max_allowed_guests)
-                    + ").",
+                    + ")",
                 }
             )
         existing_bookings_in_period = Booking.objects.filter(
@@ -34,8 +34,8 @@ class BookingSerializer(serializers.ModelSerializer):
         )
         if existing_bookings_in_period.exists():
             raise serializers.ValidationError(
-            {
-                "check_in_date": "There is already a booking in the selected period.",
-            }
+                {
+                    "check_in_date": "There is already a booking in the selected period.",
+                }
             )
         return super(BookingSerializer, self).validate(data)
