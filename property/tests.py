@@ -63,3 +63,18 @@ class PropertyViewTestCase(APITestCase):
                 "activation_date": ["This field is required."],
             },
         )
+
+    def test_should_delete_a_property_when_the_specified_id_matches(self):
+        url = "/properties/1/"
+        response = self.client.delete(url)
+        propertyInDb = Property.objects.filter(id=1).first()
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertIsNone(propertyInDb)
+
+    def test_should_return_error_when_the_specified_id_dont_matches(self):
+        url = "/properties/2/"
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertEqual(
+            response.data, {"detail": "No Property matches the given query."}
+        )
