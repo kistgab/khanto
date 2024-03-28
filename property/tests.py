@@ -16,7 +16,7 @@ class PropertyViewTestCase(APITestCase):
             activation_date=date.today(),
         )
 
-    def test_should_list_all_properties_when_database_has_data(self):
+    def test_should_list_all_properties(self):
         url = "/properties/"
         response = self.client.get(url)
         self.assertEqual(response.data["count"], 1)
@@ -33,7 +33,7 @@ class PropertyViewTestCase(APITestCase):
         self.assertEqual(response.data["results"], [])
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_should_create_property_when_everything_is_specified(self):
+    def test_should_create_property_correctly(self):
         url = "/properties/"
         data = {
             "max_guests": 2,
@@ -46,7 +46,7 @@ class PropertyViewTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(response.data["id"], 2)
 
-    def test_should_not_create_property_when_something_is_not_specified(self):
+    def test_should_not_create_property_when_not_everything_is_specified(self):
         url = "/properties/"
         response = self.client.post(url)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -61,14 +61,14 @@ class PropertyViewTestCase(APITestCase):
             },
         )
 
-    def test_should_delete_a_property_when_the_specified_id_matches(self):
+    def test_should_delete_a_property_by_id(self):
         url = "/properties/1/"
         response = self.client.delete(url)
         property_in_db = Property.objects.filter(id=1).first()
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertIsNone(property_in_db)
 
-    def test_should_return_error_when_the_specified_id_dont_matches(self):
+    def test_should_not_delete_when_id_doesnt_match(self):
         url = "/properties/2/"
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
@@ -76,7 +76,7 @@ class PropertyViewTestCase(APITestCase):
             response.data, {"detail": "No Property matches the given query."}
         )
 
-    def test_should_update_property_when_everything_is_specified(self):
+    def test_should_update_all_property_fields(self):
         property_id = 1
         url = f"/properties/{property_id}/"
         data = {
@@ -95,7 +95,7 @@ class PropertyViewTestCase(APITestCase):
         self.assertEqual(response.data["activation_date"], str(data["activation_date"]))
         self.assertEqual(Decimal(response.data["cleaning_fee"]), data["cleaning_fee"])
 
-    def test_should_update_property_field_when_is_specified(self):
+    def test_should_update_some_property_fields(self):
         property_id = 1
         url = f"/properties/{property_id}/"
         data = {
@@ -106,7 +106,7 @@ class PropertyViewTestCase(APITestCase):
         self.assertEqual(response.data["id"], property_id)
         self.assertEqual(response.data["max_guests"], data["max_guests"])
 
-    def test_should_return_error_when_updating_non_existent_field(self):
+    def test_should_not_update_when_field_doesnt_exist(self):
         property_id = 1
         url = f"/properties/{property_id}/"
         data = {
@@ -117,7 +117,7 @@ class PropertyViewTestCase(APITestCase):
         property_after = Property.objects.filter(id=property_id).first()
         self.assertEqual(property_before, property_after)
 
-    def test_should_return_error_when_updating_non_existent_property(self):
+    def test_should_not_update_when_id_doesnt_exist(self):
         property_id = 2
         url = f"/properties/{property_id}/"
         data = {
@@ -133,7 +133,7 @@ class PropertyViewTestCase(APITestCase):
             response.data, {"detail": "No Property matches the given query."}
         )
 
-    def test_should_retrieve_property_details_when_the_specified_id_matches(self):
+    def test_should_retrieve_property_correctly(self):
         property_id = 1
         url = f"/properties/{property_id}/"
         response = self.client.get(url)
@@ -142,7 +142,7 @@ class PropertyViewTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, serializer.data)
 
-    def test_should_return_error_when_retrieving_details_of_nonexistent_property(self):
+    def test_should_not_retrieve_when_id_doesnt_exist(self):
         property_id = 2
         url = f"/properties/{property_id}/"
         response = self.client.get(url)
