@@ -96,3 +96,13 @@ class PropertyViewTestCase(APITestCase):
         self.assertEqual(response.data["platform_name"], "platform_name")
         self.assertEqual(Decimal(response.data["platform_fee"]), 40)
         self.assertEqual(response.data["property_info"]["id"], 1)
+
+    def test_should_not_retrieve_advertisement_when_specified_id_doesnt_exist(
+        self,
+    ):
+        url = "/advertisements/1234/"
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertEqual(
+            response.data, {"detail": "No Advertisement matches the given query."}
+        )
